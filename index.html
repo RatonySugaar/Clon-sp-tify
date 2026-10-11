@@ -6,344 +6,306 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mi espacio de estudio</title>
 <style>
-:root {
-  --bg:#f5f7fb;
-  --panel:#fff;
-  --text:#202938;
-  --muted:#718096;
-  --blue:#4776e6;
-  --border:#e5eaf2;
-}
-* { box-sizing:border-box; }
-body {
-  margin:0;
-  font-family:Arial,sans-serif;
-  color:var(--text);
-  background:var(--bg);
-}
-header {
-  background:white;
-  border-bottom:1px solid var(--border);
-  padding:17px 5%;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:12px;
-}
-.brand { font-size:21px;font-weight:bold; }
-.brand span { color:var(--blue); }
-main { max-width:1150px;margin:auto;padding:28px 20px; }
-.welcome {
-  background:linear-gradient(120deg,#4776e6,#7557d9);
-  color:white;
-  border-radius:18px;
-  padding:30px;
-  margin-bottom:24px;
-}
-.welcome h1 { margin:0 0 10px;font-size:clamp(25px,4vw,36px); }
-.welcome p { margin:0;color:#edf1ff;line-height:1.6; }
-.grid {
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:16px;
-}
-.card {
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:14px;
-  padding:20px;
-  min-width:0;
-}
-.card h2 { font-size:18px;margin:0 0 16px; }
-.stat { font-size:30px;font-weight:bold;color:var(--blue); }
-.muted { color:var(--muted);font-size:13px; }
-.section { margin-top:25px; }
-input,textarea,button {
-  font:inherit;
-}
-input,textarea {
-  width:100%;
-  border:1px solid #d8deea;
-  border-radius:9px;
-  padding:11px;
-  margin:5px 0 10px;
-  background:white;
-  color:var(--text);
-}
-textarea { resize:vertical;min-height:100px; }
-button {
-  cursor:pointer;
-  border:0;
-  border-radius:9px;
-  padding:11px 15px;
-  background:var(--blue);
-  color:white;
-  font-weight:bold;
-}
-button.secondary {
-  background:#edf2ff;color:#345ac0;
-}
-button.delete {
-  background:#fff0f0;color:#b83232;
-  padding:7px 10px;
-}
-.task {
-  display:flex;
-  gap:10px;
-  align-items:flex-start;
-  padding:12px 0;
-  border-bottom:1px solid var(--border);
-}
-.task:last-child { border-bottom:0; }
-.task input[type=checkbox] {
-  width:18px;height:18px;margin:2px 0;
-}
-.task-body { flex:1;min-width:0; }
-.task-title { overflow-wrap:anywhere; }
-.task.done .task-title {
-  text-decoration:line-through;color:var(--muted);
-}
-.task small { display:block;color:var(--muted);margin-top:5px; }
-.form-row {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:8px;
-}
-.subjects {
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:12px;
-}
-.subject {
-  padding:16px;border-radius:12px;
-  background:#edf2ff;border:1px solid #dfe7ff;
-}
-.subject:nth-child(2) { background:#e7f8ef;border-color:#d5f0e0; }
-.subject:nth-child(3) { background:#fff2df;border-color:#f5e6cc; }
-.subject strong { display:block;margin-bottom:6px; }
-.empty { color:var(--muted);font-size:14px;padding:10px 0; }
-#notice { min-height:18px;color:var(--muted);font-size:12px; }
-footer { text-align:center;padding:25px;color:var(--muted);font-size:12px; }
-@media(max-width:750px) {
-  .grid { grid-template-columns:1fr; }
-  .subjects { grid-template-columns:1fr; }
-  main { padding:18px 12px; }
-  .welcome { padding:23px; }
+*{box-sizing:border-box}
+:root{--blue:#1a73e8;--bg:#f8fafd;--text:#202124;--muted:#5f6368}
+body{margin:0;font:14px Arial,sans-serif;color:var(--text);background:var(--bg)}
+button,input{font:inherit}
+button{cursor:pointer}
+header{height:64px;background:white;border-bottom:1px solid #dadce0;display:flex;align-items:center;gap:18px;padding:0 22px;position:sticky;top:0;z-index:3}
+.brand{font-size:21px;color:#4285f4;font-weight:600}
+.brand span{color:#5f6368}
+.layout{display:flex;min-height:calc(100vh - 64px)}
+aside{width:235px;padding:22px 12px;background:white;border-right:1px solid #dadce0;flex-shrink:0}
+.nav{display:block;padding:13px 16px;border-radius:0 28px 28px 0;margin:4px 0;color:#3c4043}
+.nav.active{background:#e8f0fe;color:#1967d2;font-weight:bold}
+main{padding:30px;flex:1;min-width:0}
+h1{font-size:28px;font-weight:400;margin:8px 0}
+.muted{color:var(--muted)}
+.courses{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:18px;margin-top:26px}
+.course{background:white;border:1px solid #dadce0;border-radius:10px;overflow:hidden}
+.course-top{height:100px;padding:18px;color:white;font-size:19px;font-weight:bold}
+.course:nth-child(1) .course-top{background:#1a73e8}
+.course:nth-child(2) .course-top{background:#188038}
+.course:nth-child(3) .course-top{background:#8430ce}
+.course:nth-child(4) .course-top{background:#e8710a}
+.course-body{padding:16px;line-height:1.8}
+.card{background:white;border:1px solid #dadce0;border-radius:12px;padding:20px;margin-top:24px}
+.task{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #eee}
+.task:last-child{border:0}
+.task input{width:18px;height:18px}
+.task label{flex:1}
+input[type=text],input[type=url]{width:100%;padding:12px;border:1px solid #dadce0;border-radius:8px;margin:8px 0}
+.primary{background:var(--blue);color:white;border:0;border-radius:25px;padding:12px 19px}
+.float{position:fixed;bottom:22px;right:22px;z-index:5;box-shadow:0 3px 10px #0002}
+#playerView{display:none;position:fixed;inset:0;background:#121212;color:white;z-index:10;overflow:auto}
+.player-header{height:68px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#181818;position:sticky;top:0}
+.player-layout{display:grid;grid-template-columns:260px minmax(0,1fr);min-height:calc(100vh - 68px);gap:8px;padding:8px}
+.library{background:#181818;border-radius:10px;padding:20px;overflow:auto}
+.library h2{font-size:17px}
+.playlist-row{padding:13px 10px;border-radius:6px;cursor:pointer;overflow-wrap:anywhere}
+.playlist-row:hover,.playlist-row.active{background:#303030}
+.player-main{padding:30px;background:linear-gradient(#254a37,#121212 320px);border-radius:10px;min-width:0}
+.player-main h1{font-size:36px;margin:30px 0 12px}
+.add{display:flex;gap:8px;max-width:800px}
+.add input{background:#242424;border-color:#555;color:white}
+#playerContent{margin-top:25px}
+iframe{width:100%;height:352px;border:0;border-radius:10px;margin-top:16px}
+.remove{background:#333;color:#ffb4ab;border:0;border-radius:20px;padding:8px 12px}
+#message{font-size:13px;color:#ccc;margin-top:10px}
+@media(max-width:650px){
+ aside{display:none}main{padding:18px}
+ .player-layout{grid-template-columns:1fr}
+ .library{max-height:190px}
+ .player-main{padding:18px}
+ .player-main h1{font-size:27px}
+ .add{flex-direction:column}
+ header{padding:0 14px}
 }
 </style>
 </head>
 <body>
+
 <header>
-  <div class="brand">✦ Mi <span>espacio de estudio</span></div>
-  <div class="muted" id="today"></div>
+  <div style="font-size:23px">☰</div>
+  <div class="brand">Google <span>Classroom</span></div>
+  <div style="margin-left:auto;color:#5f6368">Mi espacio de estudio</div>
 </header>
 
-<main>
-  <section class="welcome">
-    <h1>¡Hola! 👋</h1>
-    <p>Organiza tus asignaturas, prepara tus exámenes y lleva tus tareas al día.</p>
-  </section>
+<div class="layout">
+  <aside>
+    <div class="nav active">⌂ &nbsp; Inicio</div>
+    <div class="nav">▣ &nbsp; Clases</div>
+    <div class="nav">▦ &nbsp; Calendario</div>
+    <div class="nav">☷ &nbsp; Tareas pendientes</div>
+    <hr style="border:0;border-top:1px solid #eee;margin:20px 10px">
+    <div class="nav">▱ &nbsp; Mis apuntes</div>
+  </aside>
 
-  <div class="grid">
-    <section class="card">
-      <h2>📚 Tareas pendientes</h2>
-      <div class="stat" id="pendingCount">0</div>
-      <p class="muted">Tareas por terminar</p>
-    </section>
-    <section class="card">
-      <h2>✅ Tareas completadas</h2>
-      <div class="stat" id="doneCount">0</div>
-      <p class="muted">¡Sigue así!</p>
-    </section>
-    <section class="card">
-      <h2>🗓️ Próxima entrega</h2>
-      <div id="nextTask">No hay entregas próximas</div>
-    </section>
-  </div>
+  <main>
+    <h1>¡Hola!</h1>
+    <div class="muted">Aquí tienes tus asignaturas y tareas pendientes.</div>
 
-  <section class="section card">
-    <h2>📖 Mis asignaturas</h2>
-    <div class="subjects">
-      <div class="subject">
-        <strong>Matemáticas</strong>
-        <span class="muted">Ejercicios y repaso</span>
+    <div class="courses">
+      <div class="course">
+        <div class="course-top">Matemáticas</div>
+        <div class="course-body">Asignatura<br><span class="muted">Ejercicios y repaso</span></div>
       </div>
-      <div class="subject">
-        <strong>Lengua</strong>
-        <span class="muted">Lecturas y trabajos</span>
+      <div class="course">
+        <div class="course-top">Lengua</div>
+        <div class="course-body">Asignatura<br><span class="muted">Lecturas y trabajos</span></div>
       </div>
-      <div class="subject">
-        <strong>Inglés</strong>
-        <span class="muted">Vocabulario y gramática</span>
+      <div class="course">
+        <div class="course-top">Inglés</div>
+        <div class="course-body">Asignatura<br><span class="muted">Vocabulario y gramática</span></div>
+      </div>
+      <div class="course">
+        <div class="course-top">Historia</div>
+        <div class="course-body">Asignatura<br><span class="muted">Apuntes y exámenes</span></div>
       </div>
     </div>
-  </section>
 
-  <section class="section card">
-    <h2>＋ Añadir tarea o examen</h2>
-    <form id="taskForm">
-      <label for="taskName">Nombre</label>
-      <input id="taskName" required maxlength="120"
-        placeholder="Ej. Examen del tema 4">
+    <section class="card">
+      <h2>Tareas pendientes</h2>
+      <form id="taskForm">
+        <input id="taskInput" type="text" maxlength="150"
+          placeholder="Añadir una tarea..." required>
+        <button class="primary">Añadir tarea</button>
+      </form>
+      <div id="tasks"></div>
+    </section>
 
-      <div class="form-row">
-        <div>
-          <label for="taskSubject">Asignatura</label>
-          <input id="taskSubject" required maxlength="60"
-            placeholder="Ej. Matemáticas">
-        </div>
-        <div>
-          <label for="taskDate">Fecha</label>
-          <input id="taskDate" type="date" required>
-        </div>
-      </div>
-      <button type="submit">Guardar tarea</button>
-      <p id="notice" role="status"></p>
-    </form>
-  </section>
+    <section class="card">
+      <h2>Mis apuntes</h2>
+      <textarea id="notes" style="width:100%;min-height:120px;border:1px solid #dadce0;border-radius:8px;padding:12px" placeholder="Escribe tus apuntes..."></textarea>
+      <div class="muted" id="noteStatus">Los apuntes se guardan en este navegador.</div>
+    </section>
+  </main>
+</div>
 
-  <section class="section card">
-    <h2>📝 Mi lista de tareas</h2>
-    <div id="taskList"></div>
-  </section>
+<button class="primary float" onclick="openPlayer()">♫ Abrir reproductor</button>
 
-  <section class="section card">
-    <h2>✍️ Mis apuntes rápidos</h2>
-    <p class="muted">Escribe ideas, recordatorios o fórmulas. Se guardarán automáticamente.</p>
-    <textarea id="notes" placeholder="Escribe aquí tus apuntes..."></textarea>
-    <div id="notesStatus" class="muted">Los apuntes se guardan en este navegador.</div>
-  </section>
-</main>
+<div id="playerView">
+  <div class="player-header">
+    <button onclick="closePlayer()" style="background:#303030;color:white;border:0;border-radius:22px;padding:11px 16px">← Volver al estudio</button>
+    <strong>Mi reproductor</strong>
+    <span>♫</span>
+  </div>
 
-<footer>Mi espacio de estudio · Tus datos se guardan en este navegador.</footer>
+  <div class="player-layout">
+    <aside class="library">
+      <h2>♫ Mi biblioteca</h2>
+      <div class="muted" style="margin-bottom:15px">Tus playlists guardadas</div>
+      <div id="playlistList"></div>
+    </aside>
+
+    <section class="player-main">
+      <h1>Mi música</h1>
+      <p class="muted" style="color:#ddd">Añade y reproduce tus playlists de Spotify.</p>
+
+      <form id="playlistForm" class="add">
+        <input id="playlistUrl" type="url" required
+          placeholder="https://open.spotify.com/playlist/...">
+        <button class="primary">＋ Añadir</button>
+      </form>
+      <div id="message" role="status"></div>
+      <div id="playerContent"></div>
+    </section>
+  </div>
+</div>
 
 <script>
-(() => {
-  const $ = id => document.getElementById(id);
-  const TASKS_KEY = "studySpaceTasks_v1";
-  const NOTES_KEY = "studySpaceNotes_v1";
-  let tasks = [];
+const $ = id => document.getElementById(id);
 
+function read(key, fallback){
   try {
-    tasks = JSON.parse(localStorage.getItem(TASKS_KEY) || "[]");
-    if (!Array.isArray(tasks)) tasks = [];
+    const v = JSON.parse(localStorage.getItem(key));
+    return v ?? fallback;
+  } catch { return fallback; }
+}
+
+let tasks = read("classroomTasksV2", []);
+let playlists = read("mySpotifyPlaylists_v2", []);
+let selected = playlists[0]?.id || null;
+
+function openPlayer(){
+  $("playerView").style.display = "block";
+  renderPlaylists();
+}
+function closePlayer(){
+  $("playerView").style.display = "none";
+}
+function saveTasks(){
+  try { localStorage.setItem("classroomTasksV2", JSON.stringify(tasks)); }
+  catch {}
+}
+function renderTasks(){
+  $("tasks").replaceChildren();
+  if(!tasks.length){
+    $("tasks").textContent = "No tienes tareas pendientes.";
+    $("tasks").className = "muted";
+    return;
+  }
+  tasks.forEach((task,i)=>{
+    const row = document.createElement("div");
+    row.className = "task";
+    const check = document.createElement("input");
+    check.type = "checkbox";
+    check.checked = task.done;
+    check.addEventListener("change",()=>{
+      task.done = check.checked;
+      saveTasks(); renderTasks();
+    });
+    const label = document.createElement("label");
+    label.textContent = task.name;
+    if(task.done) label.style.textDecoration = "line-through";
+    const del = document.createElement("button");
+    del.textContent = "Eliminar";
+    del.style.cssText = "border:0;background:white;color:#5f6368";
+    del.onclick = ()=>{ tasks.splice(i,1);saveTasks();renderTasks(); };
+    row.append(check,label,del);
+    $("tasks").append(row);
+  });
+}
+$("taskForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  tasks.push({name:$("taskInput").value.trim(),done:false});
+  saveTasks(); $("taskInput").value = ""; renderTasks();
+});
+
+$("notes").value = localStorage.getItem("classroomNotesV2") || "";
+$("notes").addEventListener("input",()=>{
+  try {
+    localStorage.setItem("classroomNotesV2",$("notes").value);
+    $("noteStatus").textContent = "Apuntes guardados.";
   } catch {
-    tasks = [];
+    $("noteStatus").textContent = "No se han podido guardar.";
+  }
+});
+
+function getId(value){
+  try {
+    const url = new URL(value);
+    if(url.hostname !== "open.spotify.com") return null;
+    const match = url.pathname.match(/^\/playlist\/([A-Za-z0-9]+)/);
+    return match ? match[1] : null;
+  } catch { return null; }
+}
+
+function renderPlaylists(){
+  $("playlistList").replaceChildren();
+  playlists.forEach(p=>{
+    const row = document.createElement("div");
+    row.className = "playlist-row" + (p.id===selected ? " active" : "");
+    row.textContent = "♫  " + p.name;
+    row.onclick = ()=>{selected=p.id;renderPlaylists();renderPlayer();};
+    $("playlistList").append(row);
+  });
+  renderPlayer();
+}
+
+function renderPlayer(){
+  $("playerContent").replaceChildren();
+  const p = playlists.find(x=>x.id===selected);
+  if(!p){
+    const msg = document.createElement("p");
+    msg.className = "muted";
+    msg.textContent = "Añade una playlist para comenzar.";
+    $("playerContent").append(msg);
+    return;
   }
 
-  $("today").textContent = new Date().toLocaleDateString("es-ES", {
-    weekday:"long",day:"numeric",month:"long"
-  });
+  const heading = document.createElement("h2");
+  heading.textContent = p.name;
 
-  $("notes").value = localStorage.getItem(NOTES_KEY) || "";
+  const remove = document.createElement("button");
+  remove.className = "remove";
+  remove.textContent = "Eliminar playlist";
+  remove.onclick = ()=>{
+    if(!confirm("¿Eliminar esta playlist de tu biblioteca?")) return;
+    playlists = playlists.filter(x=>x.id!==p.id);
+    selected = playlists[0]?.id || null;
+    savePlaylists();renderPlaylists();
+  };
 
-  function saveTasks() {
-    try {
-      localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
-      $("notice").textContent = "Tareas guardadas.";
-    } catch {
-      $("notice").textContent = "No se pudieron guardar las tareas.";
-    }
+  const frame = document.createElement("iframe");
+  frame.title = "Reproductor de Spotify";
+  frame.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+  frame.loading = "lazy";
+  frame.src = "https://open.spotify.com/embed/playlist/" +
+    encodeURIComponent(p.id) + "?theme=0";
+
+  $("playerContent").append(heading,remove,frame);
+}
+
+function savePlaylists(){
+  try {
+    localStorage.setItem("mySpotifyPlaylists_v2",JSON.stringify(playlists));
+    $("message").textContent = "Biblioteca guardada en este navegador.";
+  } catch {
+    $("message").textContent = "No se ha podido guardar la biblioteca.";
   }
+}
 
-  function render() {
-    $("taskList").replaceChildren();
-    const pending = tasks.filter(t => !t.done);
-    const completed = tasks.filter(t => t.done);
-
-    $("pendingCount").textContent = pending.length;
-    $("doneCount").textContent = completed.length;
-
-    const upcoming = pending
-      .filter(t => t.date)
-      .sort((a,b) => a.date.localeCompare(b.date))[0];
-
-    $("nextTask").textContent = upcoming
-      ? upcoming.name + " · " +
-        new Date(upcoming.date + "T12:00:00").toLocaleDateString("es-ES")
-      : "No hay entregas próximas";
-
-    if (!tasks.length) {
-      const empty = document.createElement("div");
-      empty.className = "empty";
-      empty.textContent = "Todavía no has añadido ninguna tarea.";
-      $("taskList").append(empty);
-      return;
-    }
-
-    [...tasks].sort((a,b) =>
-      Number(a.done)-Number(b.done) || a.date.localeCompare(b.date)
-    ).forEach(task => {
-      const row = document.createElement("div");
-      row.className = "task" + (task.done ? " done" : "");
-
-      const checkbox = document.createElement("input");
-      checkbox.type = "checkbox";
-      checkbox.checked = task.done;
-      checkbox.setAttribute("aria-label", "Marcar como completada");
-      checkbox.addEventListener("change", () => {
-        task.done = checkbox.checked;
-        saveTasks();
-        render();
-      });
-
-      const body = document.createElement("div");
-      body.className = "task-body";
-
-      const title = document.createElement("div");
-      title.className = "task-title";
-      title.textContent = task.name;
-
-      const details = document.createElement("small");
-      details.textContent = task.subject + " · " +
-        new Date(task.date + "T12:00:00").toLocaleDateString("es-ES");
-
-      body.append(title, details);
-
-      const remove = document.createElement("button");
-      remove.className = "delete";
-      remove.textContent = "Eliminar";
-      remove.addEventListener("click", () => {
-        tasks = tasks.filter(t => t.id !== task.id);
-        saveTasks();
-        render();
-      });
-
-      row.append(checkbox, body, remove);
-      $("taskList").append(row);
-    });
+$("playlistForm").addEventListener("submit",e=>{
+  e.preventDefault();
+  const id = getId($("playlistUrl").value.trim());
+  if(!id){
+    $("message").textContent = "Introduce un enlace válido de una playlist de Spotify.";
+    return;
   }
+  if(playlists.some(p=>p.id===id)){
+    $("message").textContent = "Esta playlist ya está añadida.";
+    return;
+  }
+  const p = {id,name:"Playlist " + (playlists.length+1)};
+  playlists.unshift(p);
+  selected = id;
+  savePlaylists();
+  $("playlistUrl").value = "";
+  renderPlaylists();
+});
 
-  $("taskForm").addEventListener("submit", event => {
-    event.preventDefault();
-    tasks.push({
-      id: Date.now().toString() + Math.random().toString(16).slice(2),
-      name: $("taskName").value.trim(),
-      subject: $("taskSubject").value.trim(),
-      date: $("taskDate").value,
-      done: false
-    });
-    saveTasks();
-    $("taskForm").reset();
-    render();
-  });
-
-  let noteTimer;
-  $("notes").addEventListener("input", () => {
-    clearTimeout(noteTimer);
-    $("notesStatus").textContent = "Guardando...";
-    noteTimer = setTimeout(() => {
-      try {
-        localStorage.setItem(NOTES_KEY, $("notes").value);
-        $("notesStatus").textContent = "Apuntes guardados.";
-      } catch {
-        $("notesStatus").textContent = "No se pudieron guardar los apuntes.";
-      }
-    }, 300);
-  });
-
-  render();
-})();
+renderTasks();
 </script>
 </body>
 </html>
