@@ -1,456 +1,345 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>My Spotify</title>
-
+<title>Mi espacio de estudio</title>
 <style>
 :root {
-  --bg: #000;
-  --panel: #121212;
-  --panel2: #1b1b1b;
-  --green: #1ed760;
-  --text: #fff;
-  --muted: #aaa;
+  --bg:#f5f7fb;
+  --panel:#fff;
+  --text:#202938;
+  --muted:#718096;
+  --blue:#4776e6;
+  --border:#e5eaf2;
 }
-* { box-sizing: border-box; }
+* { box-sizing:border-box; }
 body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--text);
-  font-family: Arial, sans-serif;
+  margin:0;
+  font-family:Arial,sans-serif;
+  color:var(--text);
+  background:var(--bg);
 }
-button, input { font: inherit; }
-button { cursor: pointer; }
-.app {
-  display: grid;
-  grid-template-columns: 245px minmax(0, 1fr);
-  gap: 8px;
-  height: 100vh;
-  min-height: 580px;
-  padding: 8px;
+header {
+  background:white;
+  border-bottom:1px solid var(--border);
+  padding:17px 5%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
 }
-.sidebar, main {
-  background: var(--panel);
-  border-radius: 9px;
-  min-height: 0;
+.brand { font-size:21px;font-weight:bold; }
+.brand span { color:var(--blue); }
+main { max-width:1150px;margin:auto;padding:28px 20px; }
+.welcome {
+  background:linear-gradient(120deg,#4776e6,#7557d9);
+  color:white;
+  border-radius:18px;
+  padding:30px;
+  margin-bottom:24px;
 }
-.sidebar {
-  padding: 24px 16px;
-  display: flex;
-  flex-direction: column;
-  overflow: auto;
+.welcome h1 { margin:0 0 10px;font-size:clamp(25px,4vw,36px); }
+.welcome p { margin:0;color:#edf1ff;line-height:1.6; }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:16px;
 }
-.logo {
-  font-size: 25px;
-  font-weight: 800;
-  margin: 0 0 35px 8px;
+.card {
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px;
+  min-width:0;
 }
-.logo span { color: var(--green); }
-.nav {
-  padding: 12px 9px;
-  color: #ddd;
-  font-weight: bold;
+.card h2 { font-size:18px;margin:0 0 16px; }
+.stat { font-size:30px;font-weight:bold;color:var(--blue); }
+.muted { color:var(--muted);font-size:13px; }
+.section { margin-top:25px; }
+input,textarea,button {
+  font:inherit;
 }
-.nav.active { color: var(--green); }
-.library-title {
-  margin: 30px 8px 14px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: bold;
-  text-transform: uppercase;
+input,textarea {
+  width:100%;
+  border:1px solid #d8deea;
+  border-radius:9px;
+  padding:11px;
+  margin:5px 0 10px;
+  background:white;
+  color:var(--text);
 }
-#library {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+textarea { resize:vertical;min-height:100px; }
+button {
+  cursor:pointer;
+  border:0;
+  border-radius:9px;
+  padding:11px 15px;
+  background:var(--blue);
+  color:white;
+  font-weight:bold;
 }
-.playlist-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 9px;
-  border-radius: 6px;
-  cursor: pointer;
-  min-width: 0;
+button.secondary {
+  background:#edf2ff;color:#345ac0;
 }
-.playlist-row:hover { background: #292929; }
-.playlist-row.selected { background: #303030; }
-.mini-cover {
-  width: 43px;
-  height: 43px;
-  flex-shrink: 0;
-  display: grid;
-  place-items: center;
-  border-radius: 5px;
-  background: linear-gradient(135deg, #195d38, #121212);
-  font-size: 21px;
+button.delete {
+  background:#fff0f0;color:#b83232;
+  padding:7px 10px;
 }
-.playlist-info { min-width: 0; flex: 1; }
-.playlist-info strong, .playlist-info small {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.task {
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  padding:12px 0;
+  border-bottom:1px solid var(--border);
 }
-.playlist-info strong { font-size: 13px; }
-.playlist-info small {
-  color: var(--muted);
-  margin-top: 5px;
-  font-size: 11px;
+.task:last-child { border-bottom:0; }
+.task input[type=checkbox] {
+  width:18px;height:18px;margin:2px 0;
 }
-main {
-  overflow-y: auto;
-  background: linear-gradient(180deg, #173e2c 0, #17251d 210px, #121212 390px);
-  padding: 25px;
+.task-body { flex:1;min-width:0; }
+.task-title { overflow-wrap:anywhere; }
+.task.done .task-title {
+  text-decoration:line-through;color:var(--muted);
 }
-.topbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
+.task small { display:block;color:var(--muted);margin-top:5px; }
+.form-row {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
 }
-.pill {
-  background: #080808;
-  border: 1px solid #333;
-  color: white;
-  padding: 9px 15px;
-  border-radius: 25px;
+.subjects {
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:12px;
 }
-h1 {
-  font-size: clamp(27px, 4vw, 43px);
-  margin: 45px 0 8px;
+.subject {
+  padding:16px;border-radius:12px;
+  background:#edf2ff;border:1px solid #dfe7ff;
 }
-.subtitle { color: #ddd; font-size: 14px; }
-.add-box {
-  background: rgba(0,0,0,.38);
-  border: 1px solid #ffffff18;
-  border-radius: 12px;
-  padding: 17px;
-  margin-top: 28px;
-}
-.add-box h2 { font-size: 17px; margin: 0 0 8px; }
-.add-box p { color: #bbb; font-size: 13px; }
-.add-form {
-  display: flex;
-  gap: 9px;
-}
-input {
-  min-width: 0;
-  flex: 1;
-  padding: 13px;
-  border-radius: 7px;
-  background: #242424;
-  border: 1px solid #444;
-  color: white;
-  outline: none;
-}
-input:focus { border-color: var(--green); }
-.green {
-  border: 0;
-  border-radius: 25px;
-  padding: 12px 20px;
-  background: var(--green);
-  color: #071b0c;
-  font-weight: bold;
-}
-.green:hover { background: #62ed91; }
-.section-heading {
-  margin: 34px 0 15px;
-  font-size: 22px;
-}
-.empty {
-  color: #aaa;
-  background: #191919;
-  border-radius: 10px;
-  padding: 24px;
-  line-height: 1.6;
-}
-.player-card {
-  background: #181818;
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 25px;
-}
-.player-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 14px;
-}
-.player-heading h2 { font-size: 19px; margin: 0; }
-.delete {
-  color: #ff8d8d;
-  border: 1px solid #654343;
-  background: #281818;
-  border-radius: 20px;
-  padding: 8px 12px;
-}
-iframe {
-  width: 100%;
-  border: 0;
-  border-radius: 10px;
-  display: block;
-  min-height: 352px;
-  background: #181818;
-}
-.notice {
-  font-size: 12px;
-  color: #aaa;
-  margin-top: 10px;
-}
-footer {
-  color: #777;
-  font-size: 12px;
-  margin: 35px 0 10px;
-}
-@media(max-width:650px) {
-  .app {
-    grid-template-columns: 1fr;
-    height: auto;
-    min-height: 100vh;
-  }
-  .sidebar { padding: 15px; }
-  .logo { margin-bottom: 12px; }
-  .nav { display: none; }
-  .library-title { margin-top: 12px; }
-  #library {
-    flex-direction: row;
-    overflow-x: auto;
-  }
-  .playlist-row { min-width: 160px; }
-  main { padding: 17px; min-height: 600px; }
-  .add-form { flex-direction: column; }
-  .add-form .green { align-self: flex-start; }
+.subject:nth-child(2) { background:#e7f8ef;border-color:#d5f0e0; }
+.subject:nth-child(3) { background:#fff2df;border-color:#f5e6cc; }
+.subject strong { display:block;margin-bottom:6px; }
+.empty { color:var(--muted);font-size:14px;padding:10px 0; }
+#notice { min-height:18px;color:var(--muted);font-size:12px; }
+footer { text-align:center;padding:25px;color:var(--muted);font-size:12px; }
+@media(max-width:750px) {
+  .grid { grid-template-columns:1fr; }
+  .subjects { grid-template-columns:1fr; }
+  main { padding:18px 12px; }
+  .welcome { padding:23px; }
 }
 </style>
 </head>
-
 <body>
-<div class="app">
-  <aside class="sidebar">
-    <div class="logo">♫ <span>My Spotify</span></div>
-    <div class="nav active">⌂ &nbsp; Inicio</div>
-    <div class="nav">♫ &nbsp; Mi música</div>
-    <div class="library-title">Tu biblioteca</div>
-    <div id="library"></div>
-  </aside>
+<header>
+  <div class="brand">✦ Mi <span>espacio de estudio</span></div>
+  <div class="muted" id="today"></div>
+</header>
 
-  <main>
-    <div class="topbar">
-      <span>◀ &nbsp; ▶</span>
-      <button class="pill" id="count">0 playlists</button>
-    </div>
+<main>
+  <section class="welcome">
+    <h1>¡Hola! 👋</h1>
+    <p>Organiza tus asignaturas, prepara tus exámenes y lleva tus tareas al día.</p>
+  </section>
 
-    <h1>Tu música, a tu manera.</h1>
-    <div class="subtitle">Tu biblioteca personal de Spotify.</div>
-
-    <section class="add-box">
-      <h2>＋ Añadir una playlist</h2>
-      <p>Pega el enlace de una playlist pública de Spotify.</p>
-      <form class="add-form" id="addForm">
-        <input id="playlistUrl"
-          type="url"
-          placeholder="https://open.spotify.com/playlist/..."
-          aria-label="Enlace de Spotify"
-          required>
-        <button class="green" type="submit">Añadir playlist</button>
-      </form>
-      <div class="notice" id="message" role="status">
-        Tus playlists se guardan en este navegador.
-      </div>
+  <div class="grid">
+    <section class="card">
+      <h2>📚 Tareas pendientes</h2>
+      <div class="stat" id="pendingCount">0</div>
+      <p class="muted">Tareas por terminar</p>
     </section>
+    <section class="card">
+      <h2>✅ Tareas completadas</h2>
+      <div class="stat" id="doneCount">0</div>
+      <p class="muted">¡Sigue así!</p>
+    </section>
+    <section class="card">
+      <h2>🗓️ Próxima entrega</h2>
+      <div id="nextTask">No hay entregas próximas</div>
+    </section>
+  </div>
 
-    <h2 class="section-heading">Tu biblioteca</h2>
-    <div id="content">
-      <div class="empty">
-        Todavía no tienes playlists.<br>
-        Pega un enlace arriba para empezar a crear tu biblioteca.
+  <section class="section card">
+    <h2>📖 Mis asignaturas</h2>
+    <div class="subjects">
+      <div class="subject">
+        <strong>Matemáticas</strong>
+        <span class="muted">Ejercicios y repaso</span>
+      </div>
+      <div class="subject">
+        <strong>Lengua</strong>
+        <span class="muted">Lecturas y trabajos</span>
+      </div>
+      <div class="subject">
+        <strong>Inglés</strong>
+        <span class="muted">Vocabulario y gramática</span>
       </div>
     </div>
+  </section>
 
-    <footer>
-      Reproductor integrado oficial de Spotify · My Spotify
-    </footer>
-  </main>
-</div>
+  <section class="section card">
+    <h2>＋ Añadir tarea o examen</h2>
+    <form id="taskForm">
+      <label for="taskName">Nombre</label>
+      <input id="taskName" required maxlength="120"
+        placeholder="Ej. Examen del tema 4">
+
+      <div class="form-row">
+        <div>
+          <label for="taskSubject">Asignatura</label>
+          <input id="taskSubject" required maxlength="60"
+            placeholder="Ej. Matemáticas">
+        </div>
+        <div>
+          <label for="taskDate">Fecha</label>
+          <input id="taskDate" type="date" required>
+        </div>
+      </div>
+      <button type="submit">Guardar tarea</button>
+      <p id="notice" role="status"></p>
+    </form>
+  </section>
+
+  <section class="section card">
+    <h2>📝 Mi lista de tareas</h2>
+    <div id="taskList"></div>
+  </section>
+
+  <section class="section card">
+    <h2>✍️ Mis apuntes rápidos</h2>
+    <p class="muted">Escribe ideas, recordatorios o fórmulas. Se guardarán automáticamente.</p>
+    <textarea id="notes" placeholder="Escribe aquí tus apuntes..."></textarea>
+    <div id="notesStatus" class="muted">Los apuntes se guardan en este navegador.</div>
+  </section>
+</main>
+
+<footer>Mi espacio de estudio · Tus datos se guardan en este navegador.</footer>
 
 <script>
 (() => {
-  const STORAGE_KEY = "mySpotifyPlaylists_v1";
   const $ = id => document.getElementById(id);
-
-  let playlists = [];
-  let selectedId = null;
+  const TASKS_KEY = "studySpaceTasks_v1";
+  const NOTES_KEY = "studySpaceNotes_v1";
+  let tasks = [];
 
   try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    playlists = saved ? JSON.parse(saved) : [];
-    if (!Array.isArray(playlists)) playlists = [];
-  } catch (e) {
-    playlists = [];
+    tasks = JSON.parse(localStorage.getItem(TASKS_KEY) || "[]");
+    if (!Array.isArray(tasks)) tasks = [];
+  } catch {
+    tasks = [];
   }
 
-  function save() {
+  $("today").textContent = new Date().toLocaleDateString("es-ES", {
+    weekday:"long",day:"numeric",month:"long"
+  });
+
+  $("notes").value = localStorage.getItem(NOTES_KEY) || "";
+
+  function saveTasks() {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(playlists));
-      $("message").textContent =
-        "Biblioteca guardada en este navegador.";
-      return true;
-    } catch (e) {
-      $("message").textContent =
-        "No se ha podido guardar. Comprueba los permisos de almacenamiento.";
-      return false;
-    }
-  }
-
-  function playlistId(url) {
-    try {
-      const u = new URL(url);
-      if (u.hostname !== "open.spotify.com" &&
-          u.hostname !== "www.open.spotify.com") return null;
-
-      const parts = u.pathname.split("/").filter(Boolean);
-      if (parts.length < 2 || parts[0] !== "playlist") return null;
-
-      const id = parts[1];
-      if (!/^[a-zA-Z0-9]+$/.test(id)) return null;
-      return id;
-    } catch (e) {
-      return null;
+      localStorage.setItem(TASKS_KEY, JSON.stringify(tasks));
+      $("notice").textContent = "Tareas guardadas.";
+    } catch {
+      $("notice").textContent = "No se pudieron guardar las tareas.";
     }
   }
 
   function render() {
-    $("count").textContent =
-      playlists.length + (playlists.length === 1
-        ? " playlist" : " playlists");
+    $("taskList").replaceChildren();
+    const pending = tasks.filter(t => !t.done);
+    const completed = tasks.filter(t => t.done);
 
-    $("library").replaceChildren();
+    $("pendingCount").textContent = pending.length;
+    $("doneCount").textContent = completed.length;
 
-    playlists.forEach(p => {
-      const row = document.createElement("div");
-      row.className = "playlist-row" +
-        (p.id === selectedId ? " selected" : "");
-      row.tabIndex = 0;
-      row.setAttribute("role", "button");
-      row.setAttribute("aria-label", "Abrir " + p.name);
+    const upcoming = pending
+      .filter(t => t.date)
+      .sort((a,b) => a.date.localeCompare(b.date))[0];
 
-      const cover = document.createElement("div");
-      cover.className = "mini-cover";
-      cover.textContent = "♫";
+    $("nextTask").textContent = upcoming
+      ? upcoming.name + " · " +
+        new Date(upcoming.date + "T12:00:00").toLocaleDateString("es-ES")
+      : "No hay entregas próximas";
 
-      const info = document.createElement("div");
-      info.className = "playlist-info";
-
-      const title = document.createElement("strong");
-      title.textContent = p.name;
-
-      const subtitle = document.createElement("small");
-      subtitle.textContent = "Playlist de Spotify";
-
-      info.append(title, subtitle);
-      row.append(cover, info);
-
-      const open = () => {
-        selectedId = p.id;
-        render();
-      };
-      row.addEventListener("click", open);
-      row.addEventListener("keydown", e => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          open();
-        }
-      });
-
-      $("library").append(row);
-    });
-
-    $("content").replaceChildren();
-
-    if (!playlists.length) {
+    if (!tasks.length) {
       const empty = document.createElement("div");
       empty.className = "empty";
-      empty.textContent =
-        "Todavía no tienes playlists. Pega un enlace arriba para empezar.";
-      $("content").append(empty);
+      empty.textContent = "Todavía no has añadido ninguna tarea.";
+      $("taskList").append(empty);
       return;
     }
 
-    const chosen = playlists.find(p => p.id === selectedId)
-      || playlists[0];
-    selectedId = chosen.id;
+    [...tasks].sort((a,b) =>
+      Number(a.done)-Number(b.done) || a.date.localeCompare(b.date)
+    ).forEach(task => {
+      const row = document.createElement("div");
+      row.className = "task" + (task.done ? " done" : "");
 
-    const card = document.createElement("section");
-    card.className = "player-card";
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.checked = task.done;
+      checkbox.setAttribute("aria-label", "Marcar como completada");
+      checkbox.addEventListener("change", () => {
+        task.done = checkbox.checked;
+        saveTasks();
+        render();
+      });
 
-    const heading = document.createElement("div");
-    heading.className = "player-heading";
+      const body = document.createElement("div");
+      body.className = "task-body";
 
-    const h2 = document.createElement("h2");
-    h2.textContent = chosen.name;
+      const title = document.createElement("div");
+      title.className = "task-title";
+      title.textContent = task.name;
 
-    const remove = document.createElement("button");
-    remove.className = "delete";
-    remove.textContent = "Eliminar";
-    remove.addEventListener("click", () => {
-      if (!confirm("¿Eliminar esta playlist de tu biblioteca?")) return;
-      playlists = playlists.filter(p => p.id !== chosen.id);
-      selectedId = playlists.length ? playlists[0].id : null;
-      save();
-      render();
+      const details = document.createElement("small");
+      details.textContent = task.subject + " · " +
+        new Date(task.date + "T12:00:00").toLocaleDateString("es-ES");
+
+      body.append(title, details);
+
+      const remove = document.createElement("button");
+      remove.className = "delete";
+      remove.textContent = "Eliminar";
+      remove.addEventListener("click", () => {
+        tasks = tasks.filter(t => t.id !== task.id);
+        saveTasks();
+        render();
+      });
+
+      row.append(checkbox, body, remove);
+      $("taskList").append(row);
     });
-
-    heading.append(h2, remove);
-
-    const frame = document.createElement("iframe");
-    frame.title = "Reproductor Spotify: " + chosen.name;
-    frame.loading = "lazy";
-    frame.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
-    frame.src = "https://open.spotify.com/embed/playlist/" +
-      encodeURIComponent(chosen.id) + "?utm_source=generator&theme=0";
-    frame.height = "352";
-
-    const note = document.createElement("div");
-    note.className = "notice";
-    note.textContent =
-      "La reproducción y las funciones disponibles dependen de Spotify.";
-
-    card.append(heading, frame, note);
-    $("content").append(card);
   }
 
-  $("addForm").addEventListener("submit", e => {
-    e.preventDefault();
-
-    const url = $("playlistUrl").value.trim();
-    const id = playlistId(url);
-
-    if (!id) {
-      $("message").textContent =
-        "Enlace no válido. Usa un enlace de una playlist de Spotify.";
-      return;
-    }
-
-    if (playlists.some(p => p.id === id)) {
-      $("message").textContent =
-        "Esta playlist ya está en tu biblioteca.";
-      return;
-    }
-
-    const item = {
-      id,
-      name: "Playlist " + (playlists.length + 1)
-    };
-
-    playlists.unshift(item);
-    selectedId = id;
-    save();
+  $("taskForm").addEventListener("submit", event => {
+    event.preventDefault();
+    tasks.push({
+      id: Date.now().toString() + Math.random().toString(16).slice(2),
+      name: $("taskName").value.trim(),
+      subject: $("taskSubject").value.trim(),
+      date: $("taskDate").value,
+      done: false
+    });
+    saveTasks();
+    $("taskForm").reset();
     render();
-    $("playlistUrl").value = "";
+  });
+
+  let noteTimer;
+  $("notes").addEventListener("input", () => {
+    clearTimeout(noteTimer);
+    $("notesStatus").textContent = "Guardando...";
+    noteTimer = setTimeout(() => {
+      try {
+        localStorage.setItem(NOTES_KEY, $("notes").value);
+        $("notesStatus").textContent = "Apuntes guardados.";
+      } catch {
+        $("notesStatus").textContent = "No se pudieron guardar los apuntes.";
+      }
+    }, 300);
   });
 
   render();
