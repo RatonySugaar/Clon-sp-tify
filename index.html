@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Spotify</title>
+
+<style>
+:root {
+  --bg: #000;
+  --panel: #121212;
+  --panel2: #1b1b1b;
+  --green: #1ed760;
+  --text: #fff;
+  --muted: #aaa;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: Arial, sans-serif;
+}
+button, input { font: inherit; }
+button { cursor: pointer; }
+.app {
+  display: grid;
+  grid-template-columns: 245px minmax(0, 1fr);
+  gap: 8px;
+  height: 100vh;
+  min-height: 580px;
+  padding: 8px;
+}
+.sidebar, main {
+  background: var(--panel);
+  border-radius: 9px;
+  min-height: 0;
+}
+.sidebar {
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  overflow: auto;
+}
+.logo {
+  font-size: 25px;
+  font-weight: 800;
+  margin: 0 0 35px 8px;
+}
+.logo span { color: var(--green); }
+.nav {
+  padding: 12px 9px;
+  color: #ddd;
+  font-weight: bold;
+}
+.nav.active { color: var(--green); }
+.library-title {
+  margin: 30px 8px 14px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+#library {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.playlist-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px;
+  border-radius: 6px;
+  cursor: pointer;
+  min-width: 0;
+}
+.playlist-row:hover { background: #292929; }
+.playlist-row.selected { background: #303030; }
+.mini-cover {
+  width: 43px;
+  height: 43px;
+  flex-shrink: 0;
+  display: grid;
+  place-items: center;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #195d38, #121212);
+  font-size: 21px;
+}
+.playlist-info { min-width: 0; flex: 1; }
+.playlist-info strong, .playlist-info small {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.playlist-info strong { font-size: 13px; }
+.playlist-info small {
+  color: var(--muted);
+  margin-top: 5px;
+  font-size: 11px;
+}
+main {
+  overflow-y: auto;
+  background: linear-gradient(180deg, #173e2c 0, #17251d 210px, #121212 390px);
+  padding: 25px;
+}
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+.pill {
+  background: #080808;
+  border: 1px solid #333;
+  color: white;
+  padding: 9px 15px;
+  border-radius: 25px;
+}
+h1 {
+  font-size: clamp(27px, 4vw, 43px);
+  margin: 45px 0 8px;
+}
+.subtitle { color: #ddd; font-size: 14px; }
+.add-box {
+  background: rgba(0,0,0,.38);
+  border: 1px solid #ffffff18;
+  border-radius: 12px;
+  padding: 17px;
+  margin-top: 28px;
+}
+.add-box h2 { font-size: 17px; margin: 0 0 8px; }
+.add-box p { color: #bbb; font-size: 13px; }
+.add-form {
+  display: flex;
+  gap: 9px;
+}
+input {
+  min-width: 0;
+  flex: 1;
+  padding: 13px;
+  border-radius: 7px;
+  background: #242424;
+  border: 1px solid #444;
+  color: white;
+  outline: none;
+}
+input:focus { border-color: var(--green); }
+.green {
+  border: 0;
+  border-radius: 25px;
+  padding: 12px 20px;
+  background: var(--green);
+  color: #071b0c;
+  font-weight: bold;
+}
+.green:hover { background: #62ed91; }
+.section-heading {
+  margin: 34px 0 15px;
+  font-size: 22px;
+}
+.empty {
+  color: #aaa;
+  background: #191919;
+  border-radius: 10px;
+  padding: 24px;
+  line-height: 1.6;
+}
+.player-card {
+  background: #181818;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 25px;
+}
+.player-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.player-heading h2 { font-size: 19px; margin: 0; }
+.delete {
+  color: #ff8d8d;
+  border: 1px solid #654343;
+  background: #281818;
+  border-radius: 20px;
+  padding: 8px 12px;
+}
+iframe {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  display: block;
+  min-height: 352px;
+  background: #181818;
+}
+.notice {
+  font-size: 12px;
+  color: #aaa;
+  margin-top: 10px;
+}
+footer {
+  color: #777;
+  font-size: 12px;
+  margin: 35px 0 10px;
+}
+@media(max-width:650px) {
+  .app {
+    grid-template-columns: 1fr;
+    height: auto;
+    min-height: 100vh;
+  }
+  .sidebar { padding: 15px; }
+  .logo { margin-bottom: 12px; }
+  .nav { display: none; }
+  .library-title { margin-top: 12px; }
+  #library {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .playlist-row { min-width: 160px; }
+  main { padding: 17px; min-height: 600px; }
+  .add-form { flex-direction: column; }
+  .add-form .green { align-self: flex-start; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="logo">♫ <span>My Spotify</span></div>
+    <div class="nav active">⌂ &nbsp; Inicio</div>
+    <div class="nav">♫ &nbsp; Mi música</div>
+    <div class="library-title">Tu biblioteca</div>
+    <div id="library"></div>
+  </aside>
+
+  <main>
+    <div class="topbar">
+      <span>◀ &nbsp; ▶</span>
+      <button class="pill" id="count">0 playlists</button>
+    </div>
+
+    <h1>Tu música, a tu manera.</h1>
+    <div class="subtitle">Tu biblioteca personal de Spotify.</div>
+
+    <section class="add-box">
+      <h2>＋ Añadir una playlist</h2>
+      <p>Pega el enlace de una playlist pública de Spotify.</p>
+      <form class="add-form" id="addForm">
+        <input id="playlistUrl"
+          type="url"
+          placeholder="https://open.spotify.com/playlist/..."
+          aria-label="Enlace de Spotify"
+          required>
+        <button class="green" type="submit">Añadir playlist</button>
+      </form>
+      <div class="notice" id="message" role="status">
+        Tus playlists se guardan en este navegador.
+      </div>
+    </section>
+
+    <h2 class="section-heading">Tu biblioteca</h2>
+    <div id="content">
+      <div class="empty">
+        Todavía no tienes playlists.<br>
+        Pega un enlace arriba para empezar a crear tu biblioteca.
+      </div>
+    </div>
+
+    <footer>
+      Reproductor integrado oficial de Spotify · My Spotify
+    </footer>
+  </main>
+</div>
+
+<script>
+(() => {
+  const STORAGE_KEY = "mySpotifyPlaylists_v1";
+  const $ = id => document.getElementById(id);
+
+  let playlists = [];
+  let selectedId = null;
+
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    playlists = saved ? JSON.parse(saved) : [];
+    if (!Array.isArray(playlists)) playlists = [];
+  } catch (e) {
+    playlists = [];
+  }
+
+  function save() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(playlists));
+      $("message").textContent =
+        "Biblioteca guardada en este navegador.";
+      return true;
+    } catch (e) {
+      $("message").textContent =
+        "No se ha podido guardar. Comprueba los permisos de almacenamiento.";
+      return false;
+    }
+  }
+
+  function playlistId(url) {
+    try {
+      const u = new URL(url);
+      if (u.hostname !== "open.spotify.com" &&
+          u.hostname !== "www.open.spotify.com") return null;
+
+      const parts = u.pathname.split("/").filter(Boolean);
+      if (parts.length < 2 || parts[0] !== "playlist") return null;
+
+      const id = parts[1];
+      if (!/^[a-zA-Z0-9]+$/.test(id)) return null;
+      return id;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function render() {
+    $("count").textContent =
+      playlists.length + (playlists.length === 1
+        ? " playlist" : " playlists");
+
+    $("library").replaceChildren();
+
+    playlists.forEach(p => {
+      const row = document.createElement("div");
+      row.className = "playlist-row" +
+        (p.id === selectedId ? " selected" : "");
+      row.tabIndex = 0;
+      row.setAttribute("role", "button");
+      row.setAttribute("aria-label", "Abrir " + p.name);
+
+      const cover = document.createElement("div");
+      cover.className = "mini-cover";
+      cover.textContent = "♫";
+
+      const info = document.createElement("div");
+      info.className = "playlist-info";
+
+      const title = document.createElement("strong");
+      title.textContent = p.name;
+
+      const subtitle = document.createElement("small");
+      subtitle.textContent = "Playlist de Spotify";
+
+      info.append(title, subtitle);
+      row.append(cover, info);
+
+      const open = () => {
+        selectedId = p.id;
+        render();
+      };
+      row.addEventListener("click", open);
+      row.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          open();
+        }
+      });
+
+      $("library").append(row);
+    });
+
+    $("content").replaceChildren();
+
+    if (!playlists.length) {
+      const empty = document.createElement("div");
+      empty.className = "empty";
+      empty.textContent =
+        "Todavía no tienes playlists. Pega un enlace arriba para empezar.";
+      $("content").append(empty);
+      return;
+    }
+
+    const chosen = playlists.find(p => p.id === selectedId)
+      || playlists[0];
+    selectedId = chosen.id;
+
+    const card = document.createElement("section");
+    card.className = "player-card";
+
+    const heading = document.createElement("div");
+    heading.className = "player-heading";
+
+    const h2 = document.createElement("h2");
+    h2.textContent = chosen.name;
+
+    const remove = document.createElement("button");
+    remove.className = "delete";
+    remove.textContent = "Eliminar";
+    remove.addEventListener("click", () => {
+      if (!confirm("¿Eliminar esta playlist de tu biblioteca?")) return;
+      playlists = playlists.filter(p => p.id !== chosen.id);
+      selectedId = playlists.length ? playlists[0].id : null;
+      save();
+      render();
+    });
+
+    heading.append(h2, remove);
+
+    const frame = document.createElement("iframe");
+    frame.title = "Reproductor Spotify: " + chosen.name;
+    frame.loading = "lazy";
+    frame.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
+    frame.src = "https://open.spotify.com/embed/playlist/" +
+      encodeURIComponent(chosen.id) + "?utm_source=generator&theme=0";
+    frame.height = "352";
+
+    const note = document.createElement("div");
+    note.className = "notice";
+    note.textContent =
+      "La reproducción y las funciones disponibles dependen de Spotify.";
+
+    card.append(heading, frame, note);
+    $("content").append(card);
+  }
+
+  $("addForm").addEventListener("submit", e => {
+    e.preventDefault();
+
+    const url = $("playlistUrl").value.trim();
+    const id = playlistId(url);
+
+    if (!id) {
+      $("message").textContent =
+        "Enlace no válido. Usa un enlace de una playlist de Spotify.";
+      return;
+    }
+
+    if (playlists.some(p => p.id === id)) {
+      $("message").textContent =
+        "Esta playlist ya está en tu biblioteca.";
+      return;
+    }
+
+    const item = {
+      id,
+      name: "Playlist " + (playlists.length + 1)
+    };
+
+    playlists.unshift(item);
+    selectedId = id;
+    save();
+    render();
+    $("playlistUrl").value = "";
+  });
+
+  render();
+})();
+</script>
+</body>
+</html>
